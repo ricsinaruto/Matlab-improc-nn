@@ -18,11 +18,11 @@ t = output_data';
 trainFcn = 'trainscg';  % Scaled conjugate gradient backpropagation.
 
 % Create a Pattern Recognition Network
-hiddenLayerSize=1:4;
-hiddenLayerSize(1,1)=40;
-hiddenLayerSize(1,2)=40;
-hiddenLayerSize(1,3)=40;
-hiddenLayerSize(1,4)=40;
+hiddenLayerSize=1:2;
+hiddenLayerSize(1,1)=16;
+hiddenLayerSize(1,2)=16;
+%hiddenLayerSize(1,3)=40;
+%hiddenLayerSize(1,4)=40;
 %hiddenLayerSize(1,5)=4;
 
 net = patternnet(hiddenLayerSize,trainFcn);
