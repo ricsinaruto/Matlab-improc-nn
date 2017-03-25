@@ -18,12 +18,12 @@ t = output_data';
 trainFcn = 'trainscg';  % Scaled conjugate gradient backpropagation.
 
 % Create a Pattern Recognition Network
-hiddenLayerSize=1:2;
-hiddenLayerSize(1,1)=16;
-hiddenLayerSize(1,2)=16;
-%hiddenLayerSize(1,3)=40;
-%hiddenLayerSize(1,4)=40;
-%hiddenLayerSize(1,5)=4;
+hiddenLayerSize=1:5;
+hiddenLayerSize(1,1)=40;
+hiddenLayerSize(1,2)=40;
+hiddenLayerSize(1,3)=40;
+hiddenLayerSize(1,4)=40;
+hiddenLayerSize(1,5)=40;
 
 net = patternnet(hiddenLayerSize,trainFcn);
 net.trainParam.epochs=100000;
@@ -33,8 +33,8 @@ net.trainParam.max_fail=100;
 
 % Choose Input and Output Pre/Post-Processing Functions
 % For a list of all processing functions type: help nnprocess
-%net.input.processFcns = {'removeconstantrows','mapminmax'};
-%net.output.processFcns = {'removeconstantrows','mapminmax'};
+%net.input.processFcns = {'mapstd'};
+%net.output.processFcns = {'mapstd'};
 
 % Setup Division of Data for Training, Validation, Testing
 % For a list of all data division functions type: help nndivide
@@ -47,7 +47,8 @@ net.divideParam.testRatio = 10/100;
 % Choose a Performance Function
 % For a list of all performance functions type: help nnperformance
 net.performFcn = 'crossentropy';  % Cross-Entropy
-net.performParam.regularization = 0.1;
+net.performParam.regularization = 0.8;
+
 
 % Choose Plot Functions
 % For a list of all plot functions type: help nnplot
@@ -58,9 +59,9 @@ net.plotFcns = {'plotperform','plottrainstate','ploterrhist', ...
 [net,tr] = train(net,x,t,'useGPU','yes');
 
 % Test the Network
-y = net(x);
+y = net(x,'useGPU','yes');
 e = gsubtract(t,y);
-performance = perform(net,t,y)
+performance = crossentropy(net,t,y,0.9*t+0.1)
 tind = vec2ind(t);
 yind = vec2ind(y);
 percentErrors = sum(tind ~= yind)/numel(tind);
@@ -69,9 +70,9 @@ percentErrors = sum(tind ~= yind)/numel(tind);
 trainTargets = t .* tr.trainMask{1};
 valTargets = t .* tr.valMask{1};
 testTargets = t .* tr.testMask{1};
-trainPerformance = perform(net,trainTargets,y)
-valPerformance = perform(net,valTargets,y)
-testPerformance = perform(net,testTargets,y)
+trainPerformance = crossentropy(net,trainTargets,y,0.9*trainTargets+0.1)
+valPerformance = crossentropy(net,valTargets,y,0.9*valTargets+0.1)
+testPerformance = crossentropy(net,testTargets,y,0.9*testTargets+0.1)
 
 % View the Network
 %view(net)
