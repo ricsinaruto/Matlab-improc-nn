@@ -7,8 +7,8 @@
 %   input_data - input data.
 %   data - target data.
 
-x = input_data';
-t = output_data_dipol';
+x = input_data_2';
+t = output_data_dipol_2';
 
 % Choose a Training Function
 % For a list of all training functions type: help nntrain
