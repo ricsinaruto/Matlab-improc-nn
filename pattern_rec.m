@@ -47,7 +47,7 @@ net.divideParam.testRatio = 10/100;
 % Choose a Performance Function
 % For a list of all performance functions type: help nnperformance
 net.performFcn = 'crossentropy';  % Cross-Entropy
-net.performParam.regularization = 0.1;
+%net.performParam.regularization = 0.1;
 
 % Choose Plot Functions
 % For a list of all plot functions type: help nnplot
