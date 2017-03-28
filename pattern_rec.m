@@ -25,6 +25,7 @@ hiddenLayerSize(1,3)=80;
 hiddenLayerSize(1,4)=80;
 hiddenLayerSize(1,5)=80;
 
+
 net = patternnet(hiddenLayerSize,trainFcn);
 net.trainParam.epochs=100000;
 net.trainParam.max_fail=100;
@@ -33,8 +34,8 @@ net.trainParam.max_fail=100;
 
 % Choose Input and Output Pre/Post-Processing Functions
 % For a list of all processing functions type: help nnprocess
-%net.input.processFcns = {'mapstd'};
-%net.output.processFcns = {'mapstd'};
+%net.input.processFcns = {'removeconstantrows','mapminmax'};
+%net.output.processFcns = {'removeconstantrows','mapminmax'};
 
 % Setup Division of Data for Training, Validation, Testing
 % For a list of all data division functions type: help nndivide
@@ -49,7 +50,6 @@ net.divideParam.testRatio = 10/100;
 net.performFcn = 'crossentropy';  % Cross-Entropy
 net.performParam.regularization = 0.8;
 
-
 % Choose Plot Functions
 % For a list of all plot functions type: help nnplot
 net.plotFcns = {'plotperform','plottrainstate','ploterrhist', ...
@@ -62,6 +62,7 @@ net.plotFcns = {'plotperform','plottrainstate','ploterrhist', ...
 y = net(x,'useGPU','yes');
 e = gsubtract(t,y);
 performance = crossentropy(net,t,y)
+
 tind = vec2ind(t);
 yind = vec2ind(y);
 percentErrors = sum(tind ~= yind)/numel(tind);
