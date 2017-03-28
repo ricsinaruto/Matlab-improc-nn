@@ -19,11 +19,11 @@ trainFcn = 'trainscg';  % Scaled conjugate gradient backpropagation.
 
 % Create a Pattern Recognition Network
 hiddenLayerSize=1:5;
-hiddenLayerSize(1,1)=40;
-hiddenLayerSize(1,2)=40;
-hiddenLayerSize(1,3)=40;
-hiddenLayerSize(1,4)=40;
-hiddenLayerSize(1,5)=40;
+hiddenLayerSize(1,1)=80;
+hiddenLayerSize(1,2)=80;
+hiddenLayerSize(1,3)=80;
+hiddenLayerSize(1,4)=80;
+hiddenLayerSize(1,5)=80;
 
 net = patternnet(hiddenLayerSize,trainFcn);
 net.trainParam.epochs=100000;
@@ -61,7 +61,7 @@ net.plotFcns = {'plotperform','plottrainstate','ploterrhist', ...
 % Test the Network
 y = net(x,'useGPU','yes');
 e = gsubtract(t,y);
-performance = crossentropy(net,t,y,0.9*t+0.1)
+performance = crossentropy(net,t,y)
 tind = vec2ind(t);
 yind = vec2ind(y);
 percentErrors = sum(tind ~= yind)/numel(tind);
@@ -70,9 +70,9 @@ percentErrors = sum(tind ~= yind)/numel(tind);
 trainTargets = t .* tr.trainMask{1};
 valTargets = t .* tr.valMask{1};
 testTargets = t .* tr.testMask{1};
-trainPerformance = crossentropy(net,trainTargets,y,0.9*trainTargets+0.1)
-valPerformance = crossentropy(net,valTargets,y,0.9*valTargets+0.1)
-testPerformance = crossentropy(net,testTargets,y,0.9*testTargets+0.1)
+trainPerformance = crossentropy(net,trainTargets,y)
+valPerformance = crossentropy(net,valTargets,y)
+testPerformance = crossentropy(net,testTargets,y)
 
 % View the Network
 %view(net)
