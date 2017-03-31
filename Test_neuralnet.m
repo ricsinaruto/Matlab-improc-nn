@@ -4,7 +4,7 @@ t = output_data';
 
 
 % Test the Network
-y = Neural(x,'useGPU','yes');
+y = neuronok_64_64(x,'useGPU','yes');
 e = gsubtract(t,y);
 %performance = crossentropy(Neural(x),t,y,0.9*t+0.1)
 %tind = vec2ind(t);
