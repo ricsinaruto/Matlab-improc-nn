@@ -7,18 +7,30 @@
 %   input_data - input data.
 %   data - target data.
 
-x = input_data_2';
-t = output_data_dipol_2';
+x = input_data(1:100000,:)';
+t = output_data_dipol(1:100000,:)';
 
 % Choose a Training Function
 % For a list of all training functions type: help nntrain
 % 'trainlm' is usually fastest.
 % 'trainbr' takes longer but may be better for challenging problems.
 % 'trainscg' uses less memory. Suitable in low memory situations.
-trainFcn = 'trainlm';  % Scaled conjugate gradient backpropagation.
+trainFcn = 'trainscg';  
 
 % Create a Fitting Network
-hiddenLayerSize = 64;
+layersize=224;
+hiddenLayerSize = 1:2;
+hiddenLayerSize(1,1)=layersize;
+hiddenLayerSize(1,2)=layersize;
+%hiddenLayerSize(1,3)=layersize;
+%hiddenLayerSize(1,4)=layersize;
+%hiddenLayerSize(1,5)=layersize;
+%hiddenLayerSize(1,6)=layersize;
+%hiddenLayerSize(1,7)=layersize;
+%hiddenLayerSize(1,8)=layersize;
+
+
+
 net = fitnet(hiddenLayerSize,trainFcn);
 net.trainParam.epochs=100000;
 net.trainParam.max_fail=100;
@@ -32,13 +44,14 @@ net.output.processFcns = {'removeconstantrows','mapminmax'};
 % For a list of all data division functions type: help nndivide
 net.divideFcn = 'dividerand';  % Divide data randomly
 net.divideMode = 'sample';  % Divide up every sample
-net.divideParam.trainRatio = 80/100;
-net.divideParam.valRatio = 10/100;
-net.divideParam.testRatio = 10/100;
+net.divideParam.trainRatio = 0.6;
+net.divideParam.valRatio = 0.3;
+net.divideParam.testRatio = 0.1;
 
 % Choose a Performance Function
 % For a list of all performance functions type: help nnperformance
 net.performFcn = 'mse';  % Mean Squared Error
+%net.performParam.regularization = 0.1;
 
 % Choose Plot Functions
 % For a list of all plot functions type: help nnplot
@@ -46,10 +59,10 @@ net.plotFcns = {'plotperform','plottrainstate','ploterrhist', ...
     'plotregression', 'plotfit'};
 
 % Train the Network
-[net,tr] = train(net,x,t);
+[net,tr] = train(net,x,t,'useGPU','yes');
 
 % Test the Network
-y = net(x);
+y = net(x,'useGPU','yes');
 e = gsubtract(t,y);
 performance = perform(net,t,y)
 
@@ -68,7 +81,7 @@ testPerformance = perform(net,testTargets,y)
 % Uncomment these lines to enable various plots.
 %figure, plotperform(tr)
 %figure, plottrainstate(tr)
-figure, ploterrhist(e,'bins',1000)
+figure, ploterrhist(e,'bins',100)
 %figure, plotregression(t,y)
 %figure, plotfit(net,x,t)
 
