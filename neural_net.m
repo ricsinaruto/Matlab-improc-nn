@@ -18,16 +18,16 @@ t = output_data_dipol(1:100000,:)';
 trainFcn = 'trainscg';  
 
 % Create a Fitting Network
-layersize=224;
-hiddenLayerSize = 1:2;
+layersize=112;
+hiddenLayerSize = 1:8;
 hiddenLayerSize(1,1)=layersize;
 hiddenLayerSize(1,2)=layersize;
-%hiddenLayerSize(1,3)=layersize;
-%hiddenLayerSize(1,4)=layersize;
-%hiddenLayerSize(1,5)=layersize;
-%hiddenLayerSize(1,6)=layersize;
-%hiddenLayerSize(1,7)=layersize;
-%hiddenLayerSize(1,8)=layersize;
+hiddenLayerSize(1,3)=layersize;
+hiddenLayerSize(1,4)=layersize;
+hiddenLayerSize(1,5)=layersize;
+hiddenLayerSize(1,6)=layersize;
+hiddenLayerSize(1,7)=layersize;
+hiddenLayerSize(1,8)=layersize;
 
 
 
@@ -51,7 +51,7 @@ net.divideParam.testRatio = 0.1;
 % Choose a Performance Function
 % For a list of all performance functions type: help nnperformance
 net.performFcn = 'mse';  % Mean Squared Error
-%net.performParam.regularization = 0.1;
+net.performParam.regularization = 0.2;
 
 % Choose Plot Functions
 % For a list of all plot functions type: help nnplot
