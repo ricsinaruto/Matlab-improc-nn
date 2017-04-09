@@ -17,17 +17,17 @@ t = output_data';
 % 'trainscg' uses less memory. Suitable in low memory situations.
 trainFcn = 'trainscg';  % Scaled conjugate gradient backpropagation.
 
-layersize=50;
+layersize=112;
 % Create a Pattern Recognition Network
-hiddenLayerSize=1:6;
+hiddenLayerSize=1:8;
 hiddenLayerSize(1,1)=layersize;
 hiddenLayerSize(1,2)=layersize;
 hiddenLayerSize(1,3)=layersize;
 hiddenLayerSize(1,4)=layersize;
 hiddenLayerSize(1,5)=layersize;
 hiddenLayerSize(1,6)=layersize;
-%hiddenLayerSize(1,7)=layersize;
-%hiddenLayerSize(1,8)=layersize;
+hiddenLayerSize(1,7)=layersize;
+hiddenLayerSize(1,8)=layersize;
 
 
 net = patternnet(hiddenLayerSize,trainFcn);
@@ -52,7 +52,7 @@ net.divideParam.testRatio = 10/100;
 % Choose a Performance Function
 % For a list of all performance functions type: help nnperformance
 net.performFcn = 'crossentropy';  % Cross-Entropy
-%net.performParam.regularization = 0.7;
+net.performParam.regularization = 0.95;
 
 % Choose Plot Functions
 % For a list of all plot functions type: help nnplot
@@ -60,10 +60,12 @@ net.plotFcns = {'plotperform','plottrainstate','ploterrhist', ...
     'plotconfusion', 'plotroc'};
 
 % Train the Network
-[net,tr] = train(net,x,t,'useGPU','yes');
+[net,tr] = train(net,x,t);
+
+%,'useGPU','yes'
 
 % Test the Network
-y = net(x,'useGPU','yes');
+y = net(x);
 e = gsubtract(t,y);
 performance = crossentropy(net,t,y)
 
