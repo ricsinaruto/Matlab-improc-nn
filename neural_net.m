@@ -19,7 +19,7 @@ trainFcn = 'trainscg';
 
 % Create a Fitting Network
 layersize=112;
-hiddenLayerSize = 1:8;
+hiddenLayerSize = 1:10;
 hiddenLayerSize(1,1)=layersize;
 hiddenLayerSize(1,2)=layersize;
 hiddenLayerSize(1,3)=layersize;
@@ -28,6 +28,8 @@ hiddenLayerSize(1,5)=layersize;
 hiddenLayerSize(1,6)=layersize;
 hiddenLayerSize(1,7)=layersize;
 hiddenLayerSize(1,8)=layersize;
+hiddenLayerSize(1,9)=layersize;
+hiddenLayerSize(1,10)=layersize;
 
 
 
