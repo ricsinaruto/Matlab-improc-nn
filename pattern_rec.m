@@ -7,7 +7,7 @@
 %   input_data - input data.
 %   output_data - target data.
 
-x = input_data(:,[1:6])';
+x = input_data(:,[1:7 14])';
 t = output_data';
 
 % Choose a Training Function
@@ -17,7 +17,7 @@ t = output_data';
 % 'trainscg' uses less memory. Suitable in low memory situations.
 trainFcn = 'trainscg';  % Scaled conjugate gradient backpropagation.
 
-layersize=100;
+layersize=128;
 % Create a Pattern Recognition Network
 hiddenLayerSize=1:4;
 hiddenLayerSize(1,1)=layersize;
@@ -60,12 +60,12 @@ net.plotFcns = {'plotperform','plottrainstate','ploterrhist', ...
     'plotconfusion', 'plotroc'};
 
 % Train the Network
-[net,tr] = train(net,x,t);
+[net,tr] = train(net,x,t,'useGPU','yes');
 
 %,'useGPU','yes'
 
 % Test the Network
-y = net(x);
+y = net(x,'useGPU','yes');
 e = gsubtract(t,y);
 performance = crossentropy(net,t,y)
 
