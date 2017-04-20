@@ -1,0 +1,93 @@
+1. SIFT
+% telepítés
+
+run('VLFEATROOT/toolbox/vl_setup')
+
+vl_version verbose
+
+% keypoint and descriptors:
+[f,d] = vl_sift(I);
+
+% 50 véletlenszerû megjelenítése
+
+perm = randperm(size(f,2)) ;
+sel = perm(1:50) ;
+h1 = vl_plotframe(f(:,sel)) ;
+h2 = vl_plotframe(f(:,sel)) ;
+set(h1,'color','k','linewidth',3) ;
+set(h2,'color','y','linewidth',2) ;
+
+% descriptor plottolása:
+
+h3 = vl_plotsiftdescriptor(d(:,sel),f(:,sel)) ;
+set(h3,'color','g') ;
+
+% basic matching
+
+[fa, da] = vl_sift(Ia) ;
+[fb, db] = vl_sift(Ib) ;
+[matches, scores] = vl_ubcmatch(da, db) ;
+
+2. Matlab Harris and SURF
+
+% Read the stereo images.
+
+I1 = rgb2gray(imread('viprectification_deskLeft.png'));
+I2 = rgb2gray(imread('viprectification_deskRight.png'));
+
+% Find the corners.
+
+points1 = detectHarrisFeatures(I1);
+points2 = detectHarrisFeatures(I2);
+
+% Extract the neighborhood features.
+
+[features1,valid_points1] = extractFeatures(I1,points1);
+[features2,valid_points2] = extractFeatures(I2,points2);
+
+% Match the features.
+
+indexPairs = matchFeatures(features1,features2);
+ 
+% Retrieve the locations of the corresponding points for each image.
+
+matchedPoints1 = valid_points1(indexPairs(:,1),:);
+matchedPoints2 = valid_points2(indexPairs(:,2),:);
+
+% Visualize the corresponding points. You can see the effect of translation between the two images despite several erroneous matches.
+
+figure; showMatchedFeatures(I1,I2,matchedPoints1,matchedPoints2);
+
+
+
+% Read the two images.
+
+I1 = imread('cameraman.tif');
+I2 = imresize(imrotate(I1,-20),1.2);
+
+% Find the SURF features.
+
+points1 = detectSURFFeatures(I1);
+points2 = detectSURFFeatures(I2);
+
+% Extract the features.
+
+[f1,vpts1] = extractFeatures(I1,points1);
+[f2,vpts2] = extractFeatures(I2,points2);
+
+% Retrieve the locations of matched points.
+
+indexPairs = matchFeatures(f1,f2) ;
+matchedPoints1 = vpts1(indexPairs(:,1));
+matchedPoints2 = vpts2(indexPairs(:,2));
+
+% Display the matching points. The data still includes several outliers, but you can see the effects of rotation and scaling on the display of matched features.
+
+figure; showMatchedFeatures(I1,I2,matchedPoints1,matchedPoints2);
+legend('matched points 1','matched points 2');
+
+% Estimate transformation
+
+[tform, inlierPts2, inlierPts1] = estimateGeometricTransform(matchedPoints2, matchedPoints1, 'projective');
+figure; showMatchedFeatures(Image1, Image2, inlierPts1, inlierPts2 );
+title('Illesztett inlier pontok');
