@@ -20,9 +20,9 @@ trainFcn = 'trainscg';  % Scaled conjugate gradient backpropagation.
 
 layersize=784;
 % Create a Pattern Recognition Network
-hiddenLayerSize=1:1;
+hiddenLayerSize=1:2;
 hiddenLayerSize(1,1)=layersize;
-%hiddenLayerSize(1,2)=layersize;
+hiddenLayerSize(1,2)=layersize;  %try this next
 %hiddenLayerSize(1,3)=layersize;
 %hiddenLayerSize(1,4)=layersize;
 %hiddenLayerSize(1,5)=layersize;
@@ -53,7 +53,7 @@ net.divideParam.testRatio = 10/100;
 % Choose a Performance Function
 % For a list of all performance functions type: help nnperformance
 net.performFcn = 'crossentropy';  % Cross-Entropy
-net.performParam.regularization = 0.98;
+net.performParam.regularization = 0.992;    % best results with 0.992 so far
 
 % Choose Plot Functions
 % For a list of all plot functions type: help nnplot
