@@ -1,7 +1,5 @@
 
 % beolvaso file
-% kell még egy neural net train file, a kész neural net file ami kiértékel
-% egy inputot, és próbálj még egy genetikus algoritmust ami gyárt egy képet
 all_chars=['A','B','C','D','E','F','G','H','I','J'];
 for i=1:10
     temp_folder=char("data/"+all_chars(i)+"/"+"*.png");

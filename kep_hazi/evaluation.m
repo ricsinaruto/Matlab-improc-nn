@@ -3,8 +3,13 @@
 %x = double(X(1:10,:)');
 %t = Y';
 
+function label=evaluation(X)
 %imcomplement needed because usually text is black on white background
-im=imcomplement(rgb2gray(imresize(X,[28 28])));
+if size(X,3)==3
+    im=imcomplement(rgb2gray(imresize(X,[28 28])));
+else
+    im=imcomplement(imresize(X,[28 28]));
+end
 x=reshape(im',1,784);
 x=double(x');
 
@@ -20,4 +25,6 @@ for i=1:1
     end
 end
 
+label(1)
 imshow(im);
+end
