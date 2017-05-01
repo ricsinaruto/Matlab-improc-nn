@@ -4,7 +4,8 @@
 %t = Y';
 
 function label=evaluation(X)
-%imcomplement needed because usually text is black on white background
+%imcomplement needed because usually text is black on white background, and
+%the neural net was mostly trained with white text on black background.
 if size(X,3)==3
     im=imcomplement(rgb2gray(imresize(X,[28 28])));
 else
