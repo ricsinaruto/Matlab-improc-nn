@@ -9,6 +9,6 @@ for i=1:size(I,1)
         end
     end
 end
-%okosabb módszer:
+%smarter:
 %kep=I<kuszob;
 end

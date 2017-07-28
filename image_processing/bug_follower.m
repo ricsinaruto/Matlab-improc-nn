@@ -43,7 +43,7 @@ while vegso(1)~=kezdo(1) || vegso(2)~=kezdo(2)
     end
     
     
-    %kontur érték adás
+    %contour value
     if I(kont_temp(iter,1),kont_temp(iter,2))==1
         kontur(belso,:)=kont_temp(iter,:);
         if iter>2

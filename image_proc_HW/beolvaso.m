@@ -1,5 +1,5 @@
 
-% beolvaso file
+% reading data file
 all_chars=['A','B','C','D','E','F','G','H','I','J'];
 for i=1:10
     temp_folder=char("data/"+all_chars(i)+"/"+"*.png");
