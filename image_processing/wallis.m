@@ -1,3 +1,4 @@
+
 function kep=wallis(I,W,p,Md,Amax,Dd)
 
 for i=1+W:size(I,1)-W 

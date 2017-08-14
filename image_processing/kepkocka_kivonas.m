@@ -1,7 +1,7 @@
 
 
-vin=VideoWriter('myFile.avi');
-open(vin);
+video=VideoWriter('myFile.avi');
+open(video);
 
 for i=1:size(video,2)-1
     most=rgb2gray(video(i).frame);
@@ -23,9 +23,9 @@ for i=1:size(video,2)-1
         end
     end
 
-    writeVideo(vin,kivonas);
+    writeVideo(video,kivonas);
 end
-close(vin);
+close(video);
     
     
 
